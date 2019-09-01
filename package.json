@@ -1,0 +1,15 @@
+{
+  "name": "lit-simple",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "@k33g_org",
+  "license": "MIT",
+  "dependencies": {
+    "@pika/web": "^0.5.3",
+    "express": "^4.17.1",
+    "lit-element": "^2.2.1"
+  }
+}

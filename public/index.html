@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Hello World!</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="">
+  <style></style>
+
+</head>
+<body>
+  <main-application></main-application>
+  
+  <!-- polyfill -->
+  <script src="./js/adoptedStyleSheets.js"></script>
+
+  <script type="module">
+    import { css, unsafeCSS } from './web_modules/lit-element.js'
+
+    let styleSheetPromise = (cssPath, variableName) => fetch(cssPath)
+      .then(response => response.text())
+      .then(cssRaw => {
+        let cssResult = css`${unsafeCSS(cssRaw)}`
+        // save the css result to a global variable to share styles with web components
+        window[variableName] = cssResult
+        console.log(cssResult)
+        return cssResult.styleSheet
+      })
+      .catch(error => console.log(`😡 [${variableName}]`, error))
+
+    Promise.all([
+      styleSheetPromise("/css/simple.css", "simpleCssResult")
+    ])
+    .then(styleSheets => {
+      // apply styles to the main document (`body, html, ...`)
+      document.adoptedStyleSheets = styleSheets
+      import("./components/MainApplication.js")
+    })
+  </script>
+
+</body>
+</html>  
